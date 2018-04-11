@@ -1,0 +1,32 @@
+{
+    "name": "czukowski/phpunit-mock-dibi",
+    "type": "library",
+    "description": "Dibi mocking helpers for PHPUnit",
+    "keywords": ["phpunit", "dibi", "database", "mock"],
+    "homepage": "https://github.com/czukowski/phpunit-mock-dibi",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Korney Czukowski",
+            "homepage": "http://xn----0tbl7bn.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/czukowski/phpunit-mock-dibi/issues"
+    },
+    "require": {
+        "php": ">=7.1",
+        "czukowski/phpunit-mock-db": "~7.0",
+        "dibi/dibi": "4.0.x-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cz\\PHPUnit\\MockDibi\\": "classes"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Cz\\PHPUnit\\MockDibi\\": "tests"
+        }
+    }
+}
