@@ -1,7 +1,7 @@
 <?php
 namespace Cz\PHPUnit\MockDibi\Drivers;
 
-use Dibi\NotImplementedException,
+use Dibi\NotSupportedException,
     Dibi\ResultDriver;
 
 /**
@@ -89,11 +89,11 @@ trait MockQueryResultDriverTrait
     }
 
     /**
-     * @throws  NotImplementedException
+     * @throws  NotSupportedException
      */
     public function getResultColumns()
     {
-        throw new NotImplementedException('Native data types cannot be determined for mock DB connection');
+        throw new NotSupportedException('Native data types cannot be determined for mock DB connection');
     }
 
     /**
