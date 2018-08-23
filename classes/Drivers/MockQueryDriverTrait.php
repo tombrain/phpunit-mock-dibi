@@ -4,7 +4,6 @@ namespace Cz\PHPUnit\MockDibi\Drivers;
 use Cz\PHPUnit\MockDB\Invocation\QueryInvocation,
     Cz\PHPUnit\MockDB\Invocation\QueryInvocationFactoryInterface,
     Cz\PHPUnit\MockDB\Mock,
-    Dibi\NotImplementedException,
     Dibi\Reflector,
     Dibi\ResultDriver;
 
@@ -190,11 +189,11 @@ trait MockQueryDriverTrait
     }
 
     /**
-     * @throws  NotImplementedException
+     * @return  void
      */
     public function getResource()
     {
-        throw new NotImplementedException('No resource for mock DB connection');
+        // Do not return anything.
     }
 
     /**
