@@ -108,6 +108,7 @@ class SqlsrvDriverTest extends Testcase
      */
     private function createObject()
     {
-        return new SqlsrvDriver();
+        return $this->getDriversFactory()
+            ->createSqlsrvDriver();
     }
 }

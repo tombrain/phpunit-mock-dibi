@@ -207,7 +207,8 @@ class PostgreDriverTest extends Testcase
      */
     private function createObject()
     {
-        return new PostgreDriver;
+        return $this->getDriversFactory()
+            ->createPostgreDriver();
     }
 
     /**

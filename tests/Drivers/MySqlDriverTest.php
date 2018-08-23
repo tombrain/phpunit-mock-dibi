@@ -33,6 +33,7 @@ class MySqlDriverTest extends Testcase
      */
     private function createObject()
     {
-        return new MySqlDriver;
+        return $this->getDriversFactory()
+            ->createMySqlDriver();
     }
 }

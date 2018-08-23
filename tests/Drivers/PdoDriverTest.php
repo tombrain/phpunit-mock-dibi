@@ -34,6 +34,7 @@ class PdoDriverTest extends Testcase
      */
     private function createObject($driverName)
     {
-        return new PdoDriver($driverName);
+        return $this->getDriversFactory()
+            ->createPdoDriver($driverName);
     }
 }

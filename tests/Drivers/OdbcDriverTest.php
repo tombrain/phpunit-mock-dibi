@@ -93,7 +93,8 @@ class OdbcDriverTest extends Testcase
      */
     private function createObject()
     {
-        return new OdbcDriver;
+        return $this->getDriversFactory()
+            ->createOdbcDriver();
     }
 
     /**

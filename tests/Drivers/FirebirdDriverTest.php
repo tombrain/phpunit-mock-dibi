@@ -99,7 +99,8 @@ class FirebirdDriverTest extends Testcase
      */
     private function createObject()
     {
-        return new FirebirdDriver;
+        return $this->getDriversFactory()
+            ->createFirebirdDriver();
     }
 
     /**

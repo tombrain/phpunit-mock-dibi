@@ -219,6 +219,7 @@ class Sqlite3DriverTest extends Testcase
      */
     private function createObject()
     {
-        return new Sqlite3Driver;
+        return $this->getDriversFactory()
+            ->createSqlite3Driver();
     }
 }

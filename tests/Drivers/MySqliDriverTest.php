@@ -33,6 +33,7 @@ class MySqliDriverTest extends Testcase
      */
     private function createObject()
     {
-        return new MySqliDriver;
+        return $this->getDriversFactory()
+            ->createMySqliDriver();
     }
 }

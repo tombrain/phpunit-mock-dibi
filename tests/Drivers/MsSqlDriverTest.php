@@ -40,6 +40,7 @@ class MsSqlDriverTest extends Testcase
      */
     private function createObject()
     {
-        return new MsSqlDriver;
+        return $this->getDriversFactory()
+            ->createMsSqlDriver();
     }
 }
