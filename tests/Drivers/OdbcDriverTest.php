@@ -56,7 +56,7 @@ class OdbcDriverTest extends Testcase
     public function testInTransaction($expected)
     {
         $object = $this->createObject();
-        $this->getObjectInTransactionProperty($object)
+        $this->getReflectionProperty($object, 'inTransaction')
             ->setValue($object, $expected);
         $actual = $object->inTransaction();
         $this->assertSame($expected, $actual);
@@ -95,16 +95,5 @@ class OdbcDriverTest extends Testcase
     {
         return $this->getDriversFactory()
             ->createOdbcDriver();
-    }
-
-    /**
-     * @param   FirebirdDriver  $object
-     * @return  ReflectionProperty
-     */
-    private function getObjectInTransactionProperty(OdbcDriver $object)
-    {
-        $inTransaction = new ReflectionProperty($object, 'inTransaction');
-        $inTransaction->setAccessible(TRUE);
-        return $inTransaction;
     }
 }

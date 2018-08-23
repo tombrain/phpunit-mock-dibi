@@ -62,7 +62,7 @@ class FirebirdDriverTest extends Testcase
     public function testInTransaction($expected)
     {
         $object = $this->createObject();
-        $this->getObjectInTransactionProperty($object)
+        $this->getReflectionProperty($object, 'inTransaction')
             ->setValue($object, $expected);
         $actual = $object->inTransaction();
         $this->assertSame($expected, $actual);
@@ -101,16 +101,5 @@ class FirebirdDriverTest extends Testcase
     {
         return $this->getDriversFactory()
             ->createFirebirdDriver();
-    }
-
-    /**
-     * @param   FirebirdDriver  $object
-     * @return  ReflectionProperty
-     */
-    private function getObjectInTransactionProperty(FirebirdDriver $object)
-    {
-        $inTransaction = new ReflectionProperty($object, 'inTransaction');
-        $inTransaction->setAccessible(TRUE);
-        return $inTransaction;
     }
 }

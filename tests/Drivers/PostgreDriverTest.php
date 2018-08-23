@@ -99,7 +99,7 @@ class PostgreDriverTest extends Testcase
     public function testInTransaction($expected)
     {
         $object = $this->createObject();
-        $this->getObjectInTransactionProperty($object)
+        $this->getReflectionProperty($object, 'inTransaction')
             ->setValue($object, $expected);
         $actual = $object->inTransaction();
         $this->assertSame($expected, $actual);
@@ -209,16 +209,5 @@ class PostgreDriverTest extends Testcase
     {
         return $this->getDriversFactory()
             ->createPostgreDriver();
-    }
-
-    /**
-     * @param   PostgreDriver  $object
-     * @return  ReflectionProperty
-     */
-    private function getObjectInTransactionProperty(PostgreDriver $object)
-    {
-        $inTransaction = new ReflectionProperty($object, 'inTransaction');
-        $inTransaction->setAccessible(TRUE);
-        return $inTransaction;
     }
 }
