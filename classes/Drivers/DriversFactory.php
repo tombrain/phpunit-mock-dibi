@@ -4,7 +4,8 @@ namespace Cz\PHPUnit\MockDibi\Drivers;
 /**
  * DriversFactory
  * 
- * @author  czukowski
+ * @author   czukowski
+ * @license  MIT License
  */
 class DriversFactory
 {
@@ -55,6 +56,70 @@ class DriversFactory
     public function createPdoDriver($driverName)
     {
         return new PdoDriver($driverName);
+    }
+
+    /**
+     * @return  PdoDriver
+     */
+    public function createPdoDblibDriver()
+    {
+        return $this->createPdoDriver('dblib');
+    }
+
+    /**
+     * @return  PdoDriver
+     */
+    public function createPdoMysqlDriver()
+    {
+        return $this->createPdoDriver('mysql');
+    }
+
+    /**
+     * @return  PdoDriver
+     */
+    public function createPdoMssqlDriver()
+    {
+        return $this->createPdoDriver('mssql');
+    }
+
+    /**
+     * @return  PdoDriver
+     */
+    public function createPdoOciDriver()
+    {
+        return $this->createPdoDriver('oci');
+    }
+
+    /**
+     * @return  PdoDriver
+     */
+    public function createPdoOdbcDriver()
+    {
+        return $this->createPdoDriver('odbc');
+    }
+
+    /**
+     * @return  PdoDriver
+     */
+    public function createPdoPgsqlDriver()
+    {
+        return $this->createPdoDriver('pgsql');
+    }
+
+    /**
+     * @return  PdoDriver
+     */
+    public function createPdoSqliteDriver()
+    {
+        return $this->createPdoDriver('sqlite');
+    }
+
+    /**
+     * @return  PdoDriver
+     */
+    public function createPdoSqlsrvDriver()
+    {
+        return $this->createPdoDriver('sqlsrv');
     }
 
     /**
