@@ -35,12 +35,4 @@ abstract class Testcase extends MockDibi\Testcase
         $property->setAccessible(TRUE);
         return $property;
     }
-
-    /**
-     * @return  DriversFactory
-     */
-    protected function getDriversFactory()
-    {
-        return new DriversFactory;
-    }
 }
