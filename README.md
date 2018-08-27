@@ -8,8 +8,9 @@ database from fixtures. Rather, every query executed by a tested code can be set
 a pre-defined result set, affected rows count or last insert ID. All with a familiar interface
 similar to PHPUnit Mock Objects.
 
-This is an adapted version of [czukowski/phpunit-mock-db] package for uses of [Dibi Database
-Abstraction Library][dibi] by David Grudl.
+This is an adapted version of [czukowski/phpunit-mock-db] package for uses of [Dibi - smart database
+layer for PHP][dibi] by David Grudl. Dibi is a database connection library that includes a powerful
+query builder and supports a variety of relational database systems.
 
 Installation
 ------------
@@ -25,12 +26,9 @@ Usage
 -----
 
 Use `Cz\PHPUnit\MockDibi\MockTrait` trait in a test case class, this will enable methods for
-creating database mock instances.
-
-Note: this trait doesn't consider more than one database connection to be in use. If it is required
-to have multiple database connections mocked, a custom implementation should be used instead, that
-either picks a correct database instance to assign the mock instance to, or one that doesn't assign
-the mock instance to anywhere and leaves it up to the test method.
+creating database mock instances. Just call `createDatabaseMock` method passing a `Dibi\Connection`
+instance that uses one of the mock drivers provided in this package, and a mock object will be added
+to it and registered to the test case class.
 
 Usage examples can be found in [czukowski/phpunit-mock-db] readme file.
 
@@ -40,4 +38,4 @@ License
 This work is released under the MIT License. See LICENSE.md for details.
 
  [czukowski/phpunit-mock-db]: https://packagist.org/packages/czukowski/phpunit-mock-db
- [dibi]: https://dibiphp.com/en/
+ [dibi]: https://github.com/dg/dibi
