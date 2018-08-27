@@ -1,8 +1,7 @@
 <?php
 namespace Cz\PHPUnit\MockDibi\Drivers;
 
-use Cz\PHPUnit\MockDB,
-    Cz\PHPUnit\SQL,
+use Cz\PHPUnit\SQL,
     Dibi\Drivers,
     Dibi\NotImplementedException;
 
@@ -13,7 +12,7 @@ use Cz\PHPUnit\MockDB,
  * @license  MIT License
  */
 class OdbcDriver extends Drivers\OdbcDriver implements
-    MockDB\DatabaseDriverInterface,
+    DatabaseDriverInterface,
     SQL\DatabaseDriverInterface
 {
     use MockQueryConnectionTrait;

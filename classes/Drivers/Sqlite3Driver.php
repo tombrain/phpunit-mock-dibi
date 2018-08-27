@@ -1,8 +1,7 @@
 <?php
 namespace Cz\PHPUnit\MockDibi\Drivers;
 
-use Cz\PHPUnit\MockDB,
-    Cz\PHPUnit\SQL,
+use Cz\PHPUnit\SQL,
     DateTime,
     DateTimeInterface,
     Dibi\DateTime as DibiDateTime,
@@ -17,7 +16,7 @@ use Cz\PHPUnit\MockDB,
  * @license  MIT License
  */
 class Sqlite3Driver extends Drivers\Sqlite3Driver implements
-    MockDB\DatabaseDriverInterface,
+    DatabaseDriverInterface,
     SQL\DatabaseDriverInterface
 {
     use MockQueryConnectionTrait;
