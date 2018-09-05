@@ -19,14 +19,26 @@ class PdoDriver extends Drivers\PdoDriver implements
     use MockQueryResultDriverTrait;
 
     /**
+     * @var  string
+     */
+    private $driverName;
+
+    /**
      * @param  string  $driverName
      */
     public function __construct($driverName)
     {
-        $config = [
-            'resource' => new PdoConnectionDouble($driverName),
-        ];
-        parent::__construct($config);
+        $this->driverName = $driverName;
+        // No calling parent constructor, it would fail if PDO extension is not enabled.
+    }
+
+    /**
+     * @param  array  $config
+     */
+    public function connect(array & $config)
+    {
+        $config['resource'] = new PdoConnectionDouble($this->driverName);
+        parent::connect($config);
     }
 
     /**
