@@ -1,8 +1,7 @@
 <?php
 namespace Cz\PHPUnit\MockDibi\Drivers;
 
-use Dibi\NotImplementedException,
-    ReflectionProperty;
+use Dibi\NotImplementedException;
 
 /**
  * PostgreDriverTest

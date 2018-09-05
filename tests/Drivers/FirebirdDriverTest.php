@@ -1,8 +1,7 @@
 <?php
 namespace Cz\PHPUnit\MockDibi\Drivers;
 
-use Dibi\NotSupportedException,
-    ReflectionProperty;
+use Dibi\NotSupportedException;
 
 /**
  * FirebirdDriverTest
