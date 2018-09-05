@@ -7,7 +7,8 @@ use Cz\PHPUnit\MockDB\DatabaseDriverInterface as OriginalDatabaseDriverInterface
 /**
  * DatabaseDriverInterface
  * 
- * @author  czukowski
+ * @author   czukowski
+ * @license  MIT License
  */
 interface DatabaseDriverInterface extends OriginalDatabaseDriverInterface
 {

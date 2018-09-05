@@ -11,7 +11,8 @@ use Cz\PHPUnit\MockDibi\Drivers\DatabaseDriverInterface,
 /**
  * MockTraitTest
  * 
- * @author  czukowski
+ * @author   czukowski
+ * @license  MIT License
  */
 class MockTraitTest extends Testcase
 {
