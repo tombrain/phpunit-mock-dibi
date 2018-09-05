@@ -32,7 +32,144 @@ creating database mock instances. Just call `createDatabaseMock` method passing 
 instance that uses one of the mock drivers provided in this package, and a mock object will be added
 to it and registered to the test case class.
 
-Usage examples can be found in [czukowski/phpunit-mock-db] readme file.
+There is a handy factory class for mock Dibi drivers in `Cz\PHPUnit\MockDibi\Drivers\DriversFactory`
+so you don't have to create driver instances yourself (see its source code for methods available).
+
+### Example how to create mock Dibi Connection:
+
+```php
+$dibi = new Dibi\Connection([
+    'driver' => $factory->createMySqlDriver()  // or whatever other driver you may be needing.
+]);
+```
+
+### Examples how to set up expected queries and mock results:
+
+Return a pre-defined result set on _any_ database query:
+
+```php
+$this->createDatabaseMock($dibi)
+    ->expects($this->any())
+    ->willReturnResultSet([
+        ['id' => 1, 'name' => 'foo'],
+        ['id' => 2, 'name' => 'bar'],
+    ]);
+```
+
+Return a pre-defined result set on _any_ database query and expect it to be executed exactly once:
+
+```php
+$this->createDatabaseMock($dibi)
+    ->expects($this->once())
+    ->willReturnResultSet([
+        ['id' => 1, 'name' => 'foo'],
+        ['id' => 2, 'name' => 'bar'],
+    ]);
+```
+
+Return a pre-defined result set on each specific database query, expecting each query to be executed
+exactly once (note: the order in which the queries are expected doesn't have to be same as the order
+in which the queries are executed, also note that whitespace will be ignored in queries, so they can
+be loaded from well-formatted files, which could be especially useful for long and complex queries):
+
+```php
+$mock = $this->createDatabaseMock($dibi);
+$mock->expects($this->once())
+    ->query('SELECT * FROM `t1`')
+    ->willReturnResultSet([['id' => 1, 'name' => 'foo']]);
+$mock->expects($this->once())
+    ->query('SELECT * FROM `t2`')
+    ->willReturnResultSet([['id' => 2, 'name' => 'bar']]);
+```
+
+Expect mixed queries, some at specific invocations (note: SELECT query is set to return an empty
+result set):
+
+```php
+$mock = $this->createDatabaseMock($dibi);
+$mock->expects($this->at(1))
+    ->query('INSERT INTO `t1` VALUES (1, "foo")')
+    ->willSetLastInsertId(1);
+$mock->expects($this->at(2))
+    ->query('INSERT INTO `t1` VALUES (2, "bar")')
+    ->willSetLastInsertId(2);
+$mock->expects($this->once())
+    ->query('SELECT * FROM `t1`')
+    ->willReturnResultSet([]);
+```
+
+Expect same query executed exactly three times and return different last insert IDs on each
+consecutive call:
+
+```php
+$this->createDatabaseMock($dibi)
+    ->expects($this->exactly(3))
+    ->query('INSERT INTO `t1` VALUES ("a", "b", "c")')
+    ->willSetLastInsertId(1, 2, 3);
+```
+
+Return affected rows count:
+
+```php
+$this->createDatabaseMock($dibi)
+    ->expects($this->exactly(2))
+    ->query('UPDATE `t1` SET `foo` = "bar" WHERE `id` = 1')
+    ->willSetAffectedRows(1);
+```
+
+Match SQL query using PHPUnit constraint (note: whitespace will not be ignored when using default
+PHPUnit constraints):
+
+```php
+$this->createDatabaseMock($dibi)
+    ->expects($this->once())
+    ->query($this->stringStartsWith('SELECT'))
+    ->willReturnResultSet([['id' => 1, 'name' => 'foo']]);
+```
+
+Set up different outcomes on consecutive calls for INSERT queries using a consecutive calls stub
+builder:
+
+```php
+$this->createDatabaseMock($dibi)
+    ->expects($this->exactly(4))
+    ->query($this->stringStartsWith('INSERT'))
+    ->onConsecutiveCalls()
+    ->willSetLastInsertId(1)
+    ->willSetLastInsertId(2)
+    ->willThrowException(new RuntimeException('Deadlock'))
+    ->willSetLastInsertId(3);
+```
+
+Although not normally needed, it is possible to set up custom callbacks to handle database queries
+(callbacks don't have to return anything):
+
+```php
+$mock = $this->createDatabaseMock($dibi);
+$mock->expects($this->any())
+    ->query($this->stringStartsWith('INSERT'))
+    ->willInvokeCallback(function ($invocation) {
+        $invocation->setLastInsertId(1);
+    });
+$mock->expects($this->any())
+    ->query($this->stringStartsWith('UPDATE'))
+    ->willInvokeCallback(function ($invocation) {
+        $invocation->setAffectedRows(0);
+    });
+$mock->expects($this->any())
+    ->query($this->stringStartsWith('SELECT'))
+    ->willInvokeCallback(function ($invocation) {
+        $invocation->setResultSet([]);
+    });
+```
+
+By default, mock object is set to throw an exception if an unknown (unmatched) query is executed,
+but this can be disabled:
+
+```php
+$mock = $this->createDatabaseMock($dibi);
+$mock->setRequireMatch(FALSE);
+```
 
 License
 -------
