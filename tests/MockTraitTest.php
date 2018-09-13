@@ -21,9 +21,12 @@ class MockTraitTest extends Testcase
      */
     public function testCreateDatabaseMock($driverType, $expectedException)
     {
+        $driver = $this->createDibiDriver($driverType);
         $dibi = new Connection([
-            'driver' => $this->createDibiDriver($driverType),
+            'driver' => $driver,
         ]);
+        $this->assertSame($driver, $dibi->getDriver());
+
         $mockObject = NULL;
         $object = $this->createObject($expectedException instanceof Throwable, $mockObject);
 
