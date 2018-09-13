@@ -119,19 +119,19 @@ class MockQueryResultDriverTraitTest extends Testcase
                 NULL,
                 NULL,
                 FALSE,
-                [FALSE, 0],
+                [NULL, 0],
             ],
             [
                 NULL,
                 NULL,
                 TRUE,
-                [FALSE, 0],
+                [NULL, 0],
             ],
             [
                 [],
                 0,
                 TRUE,
-                [FALSE, 0],
+                [NULL, 0],
             ],
             [
                 $singleItem,
@@ -155,19 +155,19 @@ class MockQueryResultDriverTraitTest extends Testcase
                 $singleItem,
                 1,
                 TRUE,
-                [FALSE, 1],
+                [NULL, 1],
             ],
             [
                 $singleItem,
                 1,
                 FALSE,
-                [FALSE, 1],
+                [NULL, 1],
             ],
             [
                 $countableObject,
                 -1,
                 FALSE,
-                [FALSE, -1],
+                [NULL, -1],
             ],
             [
                 $countableObject,
@@ -191,7 +191,7 @@ class MockQueryResultDriverTraitTest extends Testcase
                 $countableObject,
                 2,
                 FALSE,
-                [FALSE, 2],
+                [NULL, 2],
             ],
         ];
     }
@@ -228,7 +228,7 @@ class MockQueryResultDriverTraitTest extends Testcase
      */
     private function createObject($resultSet = NULL, $cursor = NULL)
     {
-        $object = $this->getMockForTrait(MockQueryResultDriverTrait::class);
+        $object = $this->getMockForTrait(MockQueryResultDriverTrait::class, [NULL]);
         $object->setResultResource($resultSet);
         $object->setCursor($cursor);
         return $object;

@@ -2,7 +2,8 @@
 namespace Cz\PHPUnit\MockDibi\Drivers;
 
 use Cz\PHPUnit\SQL,
-    Dibi\Drivers;
+    Dibi\Drivers,
+    mysqli;
 
 /**
  * MySqliDriver
@@ -16,6 +17,22 @@ class MySqliDriver extends Drivers\MySqliDriver implements
 {
     use MockQueryConnectionTrait;
     use MockQueryDriverTrait;
-    use MockQueryResultDriverTrait;
     use MySqlDriverTrait;
+
+    /**
+     * @return  MySqliResult
+     */
+    public function createResultDriver($resultSet): Drivers\MySqliResult
+    {
+        return new MySqliResult($resultSet);
+    }
+
+    /**
+     * @return  NULL
+     */
+    public function getResource(): ?mysqli
+    {
+        // Do not throw exception here, method called by `Dibi\Connection` destructor.
+        return NULL;
+    }
 }

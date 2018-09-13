@@ -235,8 +235,9 @@ class DriversIntegrationTest extends Testcase
             ->willSetAffectedRows($expected);
 
         for ($i = 0; $i < $expectTimes; $i++) {
-            $actual = $dibi->query($query);
-            $this->assertSame($expected, $actual);
+            $result = $dibi->query($query);
+            $this->assertInstanceOf(Result::class, $result);
+            $this->assertSame($expected, $result->getRowCount());
         }
     }
 

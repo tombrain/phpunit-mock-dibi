@@ -17,35 +17,34 @@ class FirebirdDriver extends Drivers\FirebirdDriver implements
 {
     use MockQueryConnectionTrait;
     use MockQueryDriverTrait;
-    use MockQueryResultDriverTrait;
 
     /**
      * @var  boolean
      */
-    private $inTransaction;
+    private $inTransaction = FALSE;
 
     /**
-     * @param  mixed  $savepoint
+     * @param  string|NULL  $savepoint
      */
-    public function begin($savepoint = NULL)
+    public function begin(string $savepoint = NULL): void
     {
         $this->checkSavepointValue($savepoint);
         $this->inTransaction = TRUE;
     }
 
     /**
-     * @param  mixed  $savepoint
+     * @param  string|NULL  $savepoint
      */
-    public function commit($savepoint = NULL)
+    public function commit(string $savepoint = NULL): void
     {
         $this->checkSavepointValue($savepoint);
         $this->inTransaction = FALSE;
     }
 
     /**
-     * @param  mixed  $savepoint
+     * @param  string|NULL  $savepoint
      */
-    public function rollback($savepoint = NULL)
+    public function rollback(string $savepoint = NULL): void
     {
         $this->checkSavepointValue($savepoint);
         $this->inTransaction = FALSE;
@@ -65,26 +64,16 @@ class FirebirdDriver extends Drivers\FirebirdDriver implements
     /**
      * @return  boolean
      */
-    public function inTransaction()
+    public function inTransaction(): bool
     {
         return $this->inTransaction;
     }
 
     /**
-     * @throws  NotSupportedException
+     * @return  FirebirdResult
      */
-    public function getRowCount()
+    public function createResultDriver($resultSet): Drivers\FirebirdResult
     {
-        // Parent class will throw exception.
-        return parent::getRowCount();
-    }
-
-    /**
-     * @throws  NotSupportedException
-     */
-    public function seek($row)
-    {
-        // Parent class will throw exception.
-        return parent::seek($row);
+        return new FirebirdResult($resultSet);
     }
 }

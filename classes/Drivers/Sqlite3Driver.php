@@ -7,7 +7,8 @@ use Cz\PHPUnit\SQL,
     Dibi\DateTime as DibiDateTime,
     Dibi\Drivers,
     Dibi\NotImplementedException,
-    Dibi\NotSupportedException;
+    SQLite3,
+    SQLite3Result as NativeSqlite3DResult;
 
 /**
  * Sqlite3Driver
@@ -21,7 +22,6 @@ class Sqlite3Driver extends Drivers\Sqlite3Driver implements
 {
     use MockQueryConnectionTrait;
     use MockQueryDriverTrait;
-    use MockQueryResultDriverTrait;
 
     /**
      * @var  string
@@ -44,7 +44,7 @@ class Sqlite3Driver extends Drivers\Sqlite3Driver implements
     /**
      * @param  mixed  $savepoint
      */
-    public function begin($savepoint = NULL)
+    public function begin(string $savepoint = NULL): void
     {
         $this->addExecutedQuery($savepoint ? "SAVEPOINT $savepoint" : 'BEGIN');
     }
@@ -52,7 +52,7 @@ class Sqlite3Driver extends Drivers\Sqlite3Driver implements
     /**
      * @param  mixed  $savepoint
      */
-    public function commit($savepoint = NULL)
+    public function commit(string $savepoint = NULL): void
     {
         $this->addExecutedQuery($savepoint ? "RELEASE SAVEPOINT $savepoint" : 'COMMIT');
     }
@@ -60,9 +60,27 @@ class Sqlite3Driver extends Drivers\Sqlite3Driver implements
     /**
      * @param  mixed  $savepoint
      */
-    public function rollback($savepoint = NULL)
+    public function rollback(string $savepoint = NULL): void
     {
         $this->addExecutedQuery($savepoint ? "ROLLBACK TO SAVEPOINT $savepoint" : 'ROLLBACK');
+    }
+
+    /**
+     * @param   mixed  $resultSet
+     * @return  Sqlite3Result
+     */
+    public function createResultSet($resultSet)
+    {
+        return new Sqlite3Result($resultSet);
+    }
+
+    /**
+     * @param   NativeSqlite3DResult  $result
+     * @return  Sqlite3Result
+     */
+    public function createResultDriver(NativeSqlite3DResult $result): Drivers\Sqlite3Result
+    {
+        return new Sqlite3Result($result);
     }
 
     /**
@@ -71,7 +89,7 @@ class Sqlite3Driver extends Drivers\Sqlite3Driver implements
      * @param   DateTime|DateTimeInterface|string|int
      * @return  string
      */
-    public function escapeDate($value)
+    public function escapeDate($value): string
     {
         if ( ! $value instanceof DateTime && ! $value instanceof DateTimeInterface) {
             $value = new DibiDateTime($value);
@@ -85,7 +103,7 @@ class Sqlite3Driver extends Drivers\Sqlite3Driver implements
      * @param   DateTime|DateTimeInterface|string|int
      * @return  string
      */
-    public function escapeDateTime($value)
+    public function escapeDateTime($value): string
     {
         if ( ! $value instanceof DateTime && ! $value instanceof DateTimeInterface) {
             $value = new DibiDateTime($value);
@@ -98,7 +116,7 @@ class Sqlite3Driver extends Drivers\Sqlite3Driver implements
      * @param   integer  $pos
      * @return  string
      */
-    public function escapeLike($value, $pos)
+    public function escapeLike(string $value, int $pos): string
     {
         return ($pos <= 0 ? "'%" : "'")
             .addcslashes($this->escapeString($value), '%_\\')
@@ -112,7 +130,7 @@ class Sqlite3Driver extends Drivers\Sqlite3Driver implements
      * @param   string  $value
      * @return  string
      */
-    private function escapeString($value)
+    private function escapeString(string $value): string
     {
         return str_replace("'", "''", $value);
     }
@@ -121,33 +139,24 @@ class Sqlite3Driver extends Drivers\Sqlite3Driver implements
      * @param   string  $value
      * @return  string
      */
-    public function escapeText($value)
+    public function escapeText(string $value): string
     {
         return "'".$this->escapeString($value)."'";
     }
 
     /**
-     * @throws  NotSupportedException
+     * @return  NULL
      */
-    public function getRowCount()
+    public function getResource(): ?SQLite3
     {
-        // Parent class will throw exception.
-        return parent::getRowCount();
-    }
-
-    /**
-     * @throws  NotSupportedException
-     */
-    public function seek($row)
-    {
-        // Parent class will throw exception.
-        return parent::seek($row);
+        // Do not throw exception here, method called by `Dibi\Connection` destructor.
+        return NULL;
     }
 
     /**
      * @throws  NotImplementedException
      */
-    public function registerFunction($name, callable $callback, $numArgs = -1)
+    public function registerFunction(string $name, callable $callback, int $numArgs = -1): void
     {
         throw new NotImplementedException('No user-defined functions for mock DB connection');
     }
@@ -155,7 +164,7 @@ class Sqlite3Driver extends Drivers\Sqlite3Driver implements
     /**
      * @throws  NotImplementedException
      */
-    public function registerAggregateFunction($name, callable $rowCallback, callable $agrCallback, $numArgs = -1)
+    public function registerAggregateFunction(string $name, callable $rowCallback, callable $agrCallback, int $numArgs = -1): void
     {
         throw new NotImplementedException('No user-defined functions for mock DB connection');
     }

@@ -17,17 +17,16 @@ class OdbcDriver extends Drivers\OdbcDriver implements
 {
     use MockQueryConnectionTrait;
     use MockQueryDriverTrait;
-    use MockQueryResultDriverTrait;
 
     /**
      * @var  boolean
      */
-    private $inTransaction;
+    private $inTransaction = FALSE;
 
     /**
      * @param  mixed  $savepoint
      */
-    public function begin($savepoint = NULL)
+    public function begin(?string $savepoint = NULL): void
     {
         $this->inTransaction = TRUE;
     }
@@ -35,7 +34,7 @@ class OdbcDriver extends Drivers\OdbcDriver implements
     /**
      * @param  mixed  $savepoint
      */
-    public function commit($savepoint = NULL)
+    public function commit(?string $savepoint = NULL): void
     {
         $this->inTransaction = FALSE;
     }
@@ -43,7 +42,7 @@ class OdbcDriver extends Drivers\OdbcDriver implements
     /**
      * @param  mixed  $savepoint
      */
-    public function rollback($savepoint = NULL)
+    public function rollback(?string $savepoint = NULL): void
     {
         $this->inTransaction = FALSE;
     }
@@ -51,15 +50,23 @@ class OdbcDriver extends Drivers\OdbcDriver implements
     /**
      * @return  boolean
      */
-    public function inTransaction()
+    public function inTransaction(): bool
     {
         return $this->inTransaction;
     }
 
     /**
+     * @return  OdbcResult
+     */
+    public function createResultDriver($resultSet): Drivers\OdbcResult
+    {
+        return new OdbcResult($resultSet);
+    }
+
+    /**
      * @throws  NotSupportedException
      */
-    public function getInsertId($sequence)
+    public function getInsertId(?string $sequence): ?int
     {
         // Parent class will throw exception.
         return parent::getInsertId($sequence);

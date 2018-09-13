@@ -179,20 +179,19 @@ class Sqlite3DriverTest extends Testcase
     }
 
     /**
-     * @dataProvider  provideUnsupportedMethods
+     * @dataProvider  provideReturnNullMethods
      */
-    public function testUnsupportedMethods($method, $arguments)
+    public function testReturnNullMethods($methodName, $arguments)
     {
         $object = $this->createObject();
-        $this->expectException(NotSupportedException::class);
-        call_user_func_array([$object, $method], $arguments);
+        $actual = call_user_func_array([$object, $methodName], $arguments);
+        $this->assertNull($actual);
     }
 
-    public function provideUnsupportedMethods()
+    public function provideReturnNullMethods()
     {
         return [
-            ['getRowCount', []],
-            ['seek', [0]],
+            ['getResource', []],
         ];
     }
 

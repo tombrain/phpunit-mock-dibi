@@ -10,19 +10,19 @@ namespace Cz\PHPUnit\MockDibi\Drivers;
 class MySqlEscapingHelper
 {
     /**
-     * @param   string  $value
+     * @param   mixed  $value
      * @return  string
      */
-    public static function escapeBinary($value)
+    public static function escapeBinary($value): string
     {
         return "_binary'".self::mySqlRealEscapeString($value)."'";
     }
 
     /**
-     * @param   string  $value
+     * @param   mixed  $value
      * @return  string
      */
-    public static function escapeText($value)
+    public static function escapeText($value): string
     {
         return "'".self::mySqlRealEscapeString($value)."'";
     }
@@ -32,7 +32,7 @@ class MySqlEscapingHelper
      * 
      * @see  http://stackoverflow.com/a/1162502/1570537
      */
-    private static function mySqlRealEscapeString($value)
+    private static function mySqlRealEscapeString($value): string
     {
         $search = ["\\", "\x00", "\n", "\r", "'", '"', "\x1a"];
         $replace = ["\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z"];

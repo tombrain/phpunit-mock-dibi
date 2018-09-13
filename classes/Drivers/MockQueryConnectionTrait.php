@@ -24,7 +24,7 @@ trait MockQueryConnectionTrait
         // Empty implementation to prevent connection to real database service.
     }
 
-    public function disconnect()
+    public function disconnect(): void
     {
         // Empty implementation to prevent closing non-existant connection.
     }

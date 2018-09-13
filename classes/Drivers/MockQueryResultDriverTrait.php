@@ -1,8 +1,7 @@
 <?php
 namespace Cz\PHPUnit\MockDibi\Drivers;
 
-use Dibi\NotSupportedException,
-    Dibi\ResultDriver;
+use Dibi\NotSupportedException;
 
 /**
  * MockQueryResultDriverTrait
@@ -25,23 +24,22 @@ trait MockQueryResultDriverTrait
     private $resultSet;
 
     /**
-     * Implements abstract function from `MockQueryDriverTrait`.
-     * 
-     * @param   mixed  $resultSet
-     * @return  ResultDriver
+     * @param  mixed  $resultSet
      */
-    public function createResultSet($resultSet)
+    public function __construct($resultSet)
     {
-        $res = clone $this;
-        $res->resultSet = $resultSet;
-        $res->cursor = NULL;
-        return $res;
+        $this->setResultResource($resultSet);
+    }
+
+    public function __destruct()
+    {
+        // Empty implementation to prevent clearing non-existing resources.
     }
 
     /**
      * @return  integer
      */
-    public function getRowCount()
+    public function getRowCount(): int
     {
         return $this->resultSet !== NULL
             ? count($this->resultSet)
@@ -52,7 +50,7 @@ trait MockQueryResultDriverTrait
      * @param   integer  $row
      * @return  boolean
      */
-    public function seek($row)
+    public function seek($row): bool
     {
         if (isset($this->resultSet[$row])) {
             $this->cursor = $row;
@@ -64,9 +62,9 @@ trait MockQueryResultDriverTrait
 
     /**
      * @param   bool  $assoc
-     * @return  array|FALSE
+     * @return  array|NULL
      */
-    public function fetch($assoc)
+    public function fetch($assoc): ?array
     {
         if ($this->cursor === NULL) {
             $this->cursor = 0;
@@ -76,13 +74,13 @@ trait MockQueryResultDriverTrait
             $this->cursor++;
             return $assoc ? $row : array_values($row);
         }
-        return FALSE;
+        return NULL;
     }
 
     /**
      * @return  void
      */
-    public function free()
+    public function free(): void
     {
         $this->cursor = NULL;
         $this->resultSet = NULL;
@@ -91,7 +89,7 @@ trait MockQueryResultDriverTrait
     /**
      * @throws  NotSupportedException
      */
-    public function getResultColumns()
+    public function getResultColumns(): array
     {
         throw new NotSupportedException('Native data types cannot be determined for mock DB connection');
     }
@@ -132,5 +130,5 @@ trait MockQueryResultDriverTrait
      * @param   string  $value
      * @return  string
      */
-    abstract public function unescapeBinary($value);
+    abstract public function unescapeBinary(string $value): string;
 }

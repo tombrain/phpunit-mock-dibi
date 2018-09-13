@@ -29,6 +29,23 @@ class MySqliDriverTest extends Testcase
     }
 
     /**
+     * @dataProvider  provideReturnNullMethods
+     */
+    public function testReturnNullMethods($methodName, $arguments)
+    {
+        $object = $this->createObject();
+        $actual = call_user_func_array([$object, $methodName], $arguments);
+        $this->assertNull($actual);
+    }
+
+    public function provideReturnNullMethods()
+    {
+        return [
+            ['getResource', []],
+        ];
+    }
+
+    /**
      * @return  MySqliDriver
      */
     private function createObject()

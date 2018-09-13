@@ -14,7 +14,7 @@ trait MySqlDriverTrait
     /**
      * @param  mixed  $savepoint
      */
-    public function begin($savepoint = NULL)
+    public function begin(?string $savepoint = NULL): void
     {
         $this->addExecutedQuery($savepoint ? "SAVEPOINT $savepoint" : 'START TRANSACTION');
     }
@@ -22,7 +22,7 @@ trait MySqlDriverTrait
     /**
      * @param  mixed  $savepoint
      */
-    public function commit($savepoint = NULL)
+    public function commit(?string $savepoint = NULL): void
     {
         $this->addExecutedQuery($savepoint ? "RELEASE SAVEPOINT $savepoint" : 'COMMIT');
     }
@@ -30,7 +30,7 @@ trait MySqlDriverTrait
     /**
      * @param  mixed  $savepoint
      */
-    public function rollback($savepoint = NULL)
+    public function rollback(?string $savepoint = NULL): void
     {
         $this->addExecutedQuery($savepoint ? "ROLLBACK TO SAVEPOINT $savepoint" : 'ROLLBACK');
     }
@@ -39,7 +39,7 @@ trait MySqlDriverTrait
      * @param   string  $value
      * @return  string
      */
-    public function escapeBinary($value)
+    public function escapeBinary(string $value): string
     {
         return MySqlEscapingHelper::escapeBinary($value);
     }
@@ -48,7 +48,7 @@ trait MySqlDriverTrait
      * @param   string  $value
      * @return  string
      */
-    public function escapeText($value)
+    public function escapeText(string $value): string
     {
         return MySqlEscapingHelper::escapeText($value);
     }
@@ -56,7 +56,7 @@ trait MySqlDriverTrait
     /**
      * @throws  NotImplementedException
      */
-    public function getInfo()
+    public function getInfo(): array
     {
         throw new NotImplementedException('No query info for mock DB connection');
     }

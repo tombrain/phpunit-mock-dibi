@@ -18,22 +18,6 @@ class DriversFactory
     }
 
     /**
-     * @return  MsSqlDriver
-     */
-    public function createMsSqlDriver()
-    {
-        return new MsSqlDriver;
-    }
-
-    /**
-     * @return  MySqlDriver
-     */
-    public function createMySqlDriver()
-    {
-        return new MySqlDriver;
-    }
-
-    /**
      * @return  MySqliDriver
      */
     public function createMySqliDriver()

@@ -76,20 +76,21 @@ class FirebirdDriverTest extends Testcase
     }
 
     /**
-     * @dataProvider  provideUnsupportedMethods
+     * @dataProvider  provideCreateResultDriver
      */
-    public function testUnsupportedMethods($method, $arguments)
+    public function testCreateResultDriver($resultSet)
     {
         $object = $this->createObject();
-        $this->expectException(NotSupportedException::class);
-        call_user_func_array([$object, $method], $arguments);
+        $actual = $object->createResultDriver($resultSet);
+        $this->assertInstanceOf(FirebirdResult::class, $actual);
     }
 
-    public function provideUnsupportedMethods()
+    public function provideCreateResultDriver()
     {
         return [
-            ['getRowCount', []],
-            ['seek', [0]],
+            [NULL],
+            [[]],
+            [[['id' => 1], ['id' => 2]]],
         ];
     }
 

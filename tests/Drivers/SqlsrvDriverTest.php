@@ -50,11 +50,11 @@ class SqlsrvDriverTest extends Testcase
     public function provideGetInsertId()
     {
         return [
-            [NULL, NULL, FALSE],
-            [0, NULL, FALSE],
+            [NULL, NULL, NULL],
+            [0, NULL, NULL],
             [1, NULL, 1],
-            [NULL, 's1', FALSE],
-            [0, 's1', FALSE],
+            [NULL, 's1', NULL],
+            [0, 's1', NULL],
             [1, 's1', 1],
         ];
     }

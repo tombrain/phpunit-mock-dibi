@@ -17,27 +17,26 @@ class PostgreDriver extends Drivers\PostgreDriver implements
 {
     use MockQueryConnectionTrait;
     use MockQueryDriverTrait;
-    use MockQueryResultDriverTrait;
 
     /**
      * @var  boolean
      */
-    private $inTransaction;
+    private $inTransaction = FALSE;
 
     /**
      * @param   mixed  $sequence
-     * @return  mixed
+     * @return  integer|NULL
      */
-    public function getInsertId($sequence)
+    public function getInsertId(?string $sequence): ?int
     {
         $this->addExecutedQuery($sequence === NULL ? 'SELECT LASTVAL()' : "SELECT CURRVAL('$sequence')");
-        return $this->lastInsertId ? : FALSE;
+        return $this->lastInsertId ? : NULL;
     }
 
     /**
      * @param  mixed  $savepoint
      */
-    public function begin($savepoint = NULL)
+    public function begin(string $savepoint = NULL): void
     {
         $this->inTransaction = TRUE;
         $this->addExecutedQuery($savepoint ? "SAVEPOINT $savepoint" : 'START TRANSACTION');
@@ -46,7 +45,7 @@ class PostgreDriver extends Drivers\PostgreDriver implements
     /**
      * @param  mixed  $savepoint
      */
-    public function commit($savepoint = NULL)
+    public function commit(string $savepoint = NULL): void
     {
         $this->inTransaction = FALSE;
         $this->addExecutedQuery($savepoint ? "RELEASE SAVEPOINT $savepoint" : 'COMMIT');
@@ -55,7 +54,7 @@ class PostgreDriver extends Drivers\PostgreDriver implements
     /**
      * @param  mixed  $savepoint
      */
-    public function rollback($savepoint = NULL)
+    public function rollback(string $savepoint = NULL): void
     {
         $this->inTransaction = FALSE;
         $this->addExecutedQuery($savepoint ? "ROLLBACK TO SAVEPOINT $savepoint" : 'ROLLBACK');
@@ -64,9 +63,18 @@ class PostgreDriver extends Drivers\PostgreDriver implements
     /**
      * @return  boolean
      */
-    public function inTransaction()
+    public function inTransaction(): bool
     {
         return $this->inTransaction;
+    }
+
+    /**
+     * @param   mixed  $resultSet
+     * @return  PostgreResult
+     */
+    public function createResultDriver($resultSet): Drivers\PostgreResult
+    {
+        return new PostgreResult($resultSet);
     }
 
     /**
@@ -75,7 +83,7 @@ class PostgreDriver extends Drivers\PostgreDriver implements
      * @param   string  $value
      * @return  string
      */
-    public function escapeBinary($value)
+    public function escapeBinary(string $value): string
     {
         return PostgreEscapingHelper::escapeBinary($value);
     }
@@ -87,7 +95,7 @@ class PostgreDriver extends Drivers\PostgreDriver implements
      * @param   string  $pos
      * @return  string
      */
-    public function escapeLike($value, $pos)
+    public function escapeLike(string $value, int $pos): string
     {
         return ($pos <= 0 ? "'%" : "'")
             .strtr($value, ['%' => '\\%', '_' => '\\_', '\\' => '\\\\'])
@@ -100,7 +108,7 @@ class PostgreDriver extends Drivers\PostgreDriver implements
      * @param   string  $value
      * @return  string
      */
-    public function escapeText($value)
+    public function escapeText(string $value): string
     {
         return PostgreEscapingHelper::escapeText($value);
     }
@@ -111,7 +119,7 @@ class PostgreDriver extends Drivers\PostgreDriver implements
      * @param   string  $value
      * @return  string
      */
-    public function unescapeBinary($value)
+    public function unescapeBinary(string $value): string
     {
         return PostgreEscapingHelper::unescapeBinary($value);
     }
@@ -119,7 +127,7 @@ class PostgreDriver extends Drivers\PostgreDriver implements
     /**
      * @throws  NotImplementedException
      */
-    public function ping()
+    public function ping(): bool
     {
         throw new NotImplementedException('No pinging mock DB connection');
     }
@@ -127,7 +135,7 @@ class PostgreDriver extends Drivers\PostgreDriver implements
     /**
      * @throws  NotImplementedException
      */
-    public function getTables()
+    public function getTables(): array
     {
         throw new NotImplementedException('Parent class method uses extention functions');
     }
@@ -136,7 +144,7 @@ class PostgreDriver extends Drivers\PostgreDriver implements
      * @param   string  $table
      * @throws  NotImplementedException
      */
-    public function getColumns($table)
+    public function getColumns($table): array
     {
         throw new NotImplementedException('Parent class method uses extention functions');
     }

@@ -23,7 +23,7 @@ class MockQueryDriverTraitTest extends Testcase
         $invocation = $this->createQueryInvocation($sql, $affectedRows, $lastInsertId, $resultSet);
         $mock = $this->createMockDouble();
         $object = $this->createObject([
-            'createInvocation', 'createResultSet', 'setAffectedRows',
+            'createInvocation', 'createResultDriver', 'setAffectedRows',
             'setInsertId', 'setResultSet',
         ]);
         $this->setupQuery($object, $mock, $invocation, $affectedRows, $lastInsertId, $resultSet, $expected);
@@ -40,7 +40,7 @@ class MockQueryDriverTraitTest extends Testcase
             ->method('createInvocation')
             ->willReturn($invocation);
         $object->expects($expected ? $this->once() : $this->never())
-            ->method('createResultSet')
+            ->method('createResultDriver')
             ->willReturn($expected);
         $object->expects($this->once())
             ->method('setAffectedRows')
@@ -173,16 +173,16 @@ class MockQueryDriverTraitTest extends Testcase
     public function testInsertId($value, $expected)
     {
         $object = $this->createObject();
-        $this->assertFalse($object->getInsertId());
+        $this->assertNull($object->getInsertId(NULL));
         $object->setInsertId($value);
-        $this->assertSame($expected, $object->getInsertId());
+        $this->assertSame($expected, $object->getInsertId(NULL));
     }
 
     public function provideInsertId()
     {
         return [
-            [0, FALSE],
-            [NULL, FALSE],
+            [0, NULL],
+            [NULL, NULL],
             [100, 100],
         ];
     }

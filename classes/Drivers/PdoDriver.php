@@ -2,7 +2,9 @@
 namespace Cz\PHPUnit\MockDibi\Drivers;
 
 use Cz\PHPUnit\SQL,
-    Dibi\Drivers;
+    Dibi\Drivers,
+    PDO,
+    PDOStatement;
 
 /**
  * PdoDriver
@@ -16,7 +18,6 @@ class PdoDriver extends Drivers\PdoDriver implements
 {
     use MockQueryConnectionTrait;
     use MockQueryDriverTrait;
-    use MockQueryResultDriverTrait;
 
     /**
      * @var  string
@@ -29,22 +30,16 @@ class PdoDriver extends Drivers\PdoDriver implements
     public function __construct($driverName)
     {
         $this->driverName = $driverName;
-        // No calling parent constructor, it would fail if PDO extension is not enabled.
-    }
-
-    /**
-     * @param  array  $config
-     */
-    public function connect(array & $config)
-    {
-        $config['resource'] = new PdoConnectionDouble($this->driverName);
-        parent::connect($config);
+        $config = [
+            'resource' => new PdoConnectionDouble($this->driverName),
+        ];
+        parent::__construct($config);
     }
 
     /**
      * @param  mixed  $savepoint
      */
-    public function begin($savepoint = NULL)
+    public function begin(string $savepoint = NULL): void
     {
         // Empty implementation.
     }
@@ -52,7 +47,7 @@ class PdoDriver extends Drivers\PdoDriver implements
     /**
      * @param  mixed  $savepoint
      */
-    public function commit($savepoint = NULL)
+    public function commit(string $savepoint = NULL): void
     {
         // Empty implementation.
     }
@@ -60,8 +55,36 @@ class PdoDriver extends Drivers\PdoDriver implements
     /**
      * @param  mixed  $savepoint
      */
-    public function rollback($savepoint = NULL)
+    public function rollback(string $savepoint = NULL): void
     {
         // Empty implementation.
+    }
+
+    /**
+     * @param   mixed  $resultSet
+     * @return  PdoResult
+     */
+    public function createResultSet($resultSet)
+    {
+        // In order to avoid having to create `PDOStatement` double, do not call the
+        // overridden `createResultDriver` method and create the result driver here.
+        return new PdoResult($resultSet, $this->driverName);
+    }
+
+    /**
+     * @throws  PdoResult
+     */
+    public function createResultDriver(PDOStatement $result): Drivers\PdoResult
+    {
+        return new PdoResult($result, $this->driverName);
+    }
+
+    /**
+     * @return  NULL
+     */
+    public function getResource(): ?PDO
+    {
+        // Do not throw exception here, method called by `Dibi\Connection` destructor.
+        return NULL;
     }
 }

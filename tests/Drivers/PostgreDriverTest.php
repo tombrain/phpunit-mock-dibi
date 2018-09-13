@@ -26,11 +26,11 @@ class PostgreDriverTest extends Testcase
     public function provideGetInsertId()
     {
         return [
-            [NULL, NULL, FALSE, "SELECT LASTVAL()"],
-            [0, NULL, FALSE, "SELECT LASTVAL()"],
+            [NULL, NULL, NULL, "SELECT LASTVAL()"],
+            [0, NULL, NULL, "SELECT LASTVAL()"],
             [1, NULL, 1, "SELECT LASTVAL()"],
-            [NULL, 's1', FALSE, "SELECT CURRVAL('s1')"],
-            [0, 's1', FALSE, "SELECT CURRVAL('s1')"],
+            [NULL, 's1', NULL, "SELECT CURRVAL('s1')"],
+            [0, 's1', NULL, "SELECT CURRVAL('s1')"],
             [1, 's1', 1, "SELECT CURRVAL('s1')"],
         ];
     }

@@ -17,7 +17,6 @@ class SqlsrvDriver extends Drivers\SqlsrvDriver implements
 {
     use MockQueryConnectionTrait;
     use MockQueryDriverTrait;
-    use MockQueryResultDriverTrait;
 
     /**
      * @param  string  $config
@@ -32,32 +31,32 @@ class SqlsrvDriver extends Drivers\SqlsrvDriver implements
      * @param   mixed  $sequence
      * @return  mixed
      */
-    public function getInsertId($sequence)
+    public function getInsertId(?string $sequence): ?int
     {
         $this->addExecutedQuery('SELECT SCOPE_IDENTITY()');
-        return $this->lastInsertId ? : FALSE;
+        return $this->lastInsertId ? : NULL;
     }
 
     /**
-     * @param  mixed  $savepoint
+     * @param  string  $savepoint
      */
-    public function begin($savepoint = NULL)
+    public function begin(string $savepoint = NULL): void
     {
         // Do nothing.
     }
 
     /**
-     * @param  mixed  $savepoint
+     * @param  string  $savepoint
      */
-    public function commit($savepoint = NULL)
+    public function commit(string $savepoint = NULL): void
     {
         // Do nothing.
     }
 
     /**
-     * @param  mixed  $savepoint
+     * @param  string  $savepoint
      */
-    public function rollback($savepoint = NULL)
+    public function rollback(string $savepoint = NULL): void
     {
         // Do nothing.
     }
@@ -70,5 +69,14 @@ class SqlsrvDriver extends Drivers\SqlsrvDriver implements
         $version = new ReflectionProperty(Drivers\SqlsrvDriver::class, 'version');
         $version->setAccessible(TRUE);
         $version->setValue($this, $value);
+    }
+
+    /**
+     * @param   mixed  $resultSet
+     * @return  SqlsrvResult
+     */
+    public function createResultDriver($resultSet): Drivers\SqlsrvResult
+    {
+        return new SqlsrvResult($resultSet);
     }
 }

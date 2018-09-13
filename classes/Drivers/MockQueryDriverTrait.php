@@ -47,7 +47,7 @@ trait MockQueryDriverTrait
      * @param   string  $sql
      * @return  ResultDriver|NULL
      */
-    public function query($sql)
+    public function query(string $sql): ?ResultDriver
     {
         $this->addExecutedQuery($sql);
 
@@ -78,44 +78,53 @@ trait MockQueryDriverTrait
      * @param   mixed  $resultSet
      * @return  ResultDriver
      */
-    abstract public function createResultSet($resultSet);
+    public function createResultSet($resultSet)
+    {
+        return $this->createResultDriver($resultSet);
+    }
+
+    /**
+     * @param   mixed  $resultSet
+     * @return  ResultDriver
+     */
+    abstract public function createResultDriver($resultSet);
 
     /**
      * @param  string        $sql
      * @param  integer|NULL  $limit
      * @param  integer|NULL  $offset
      */
-    abstract public function applyLimit( & $sql, $limit, $offset);
+    abstract public function applyLimit(string & $sql, ?int $limit, ?int $offset);
 
     /**
      * @return  integer|NULL
      */
-    public function getAffectedRows()
+    public function getAffectedRows(): ?int
     {
         return $this->affectedRows;
     }
 
     /**
-     * @param  mixed  $value
+     * @param  integer|NULL  $value
      */
-    public function setAffectedRows($value)
+    public function setAffectedRows(?int $value)
     {
         $this->affectedRows = $value;
     }
 
     /**
-     * @param   mixed  $sequence
-     * @return  mixed|FALSE
+     * @param   string|NULL  $sequence
+     * @return  integer|NULL
      */
-    public function getInsertId($sequence = NULL)
+    public function getInsertId(?string $sequence): ?int
     {
-        return $this->lastInsertId ? : FALSE;
+        return $this->lastInsertId ? : NULL;
     }
 
     /**
-     * @param  mixed  $value
+     * @param  integer|NULL  $value
      */
-    public function setInsertId($value)
+    public function setInsertId(?int $value)
     {
         $this->lastInsertId = $value;
     }
@@ -205,25 +214,25 @@ trait MockQueryDriverTrait
      * @param   string  $value
      * @return  string
      */
-    abstract public function escapeText($value);
+    abstract public function escapeText(string $value);
 
     /**
      * @param   string  $value
      * @return  string
      */
-    abstract public function escapeBinary($value);
+    abstract public function escapeBinary(string $value);
 
     /**
      * @param   string  $value
      * @return  string
      */
-    abstract public function escapeIdentifier($value);
+    abstract public function escapeIdentifier(string $value);
 
     /**
      * @param   boolean  $value
      * @return  string
      */
-    abstract public function escapeBool($value);
+    abstract public function escapeBool(bool $value);
 
     /**
      * @param   mixed  $value
@@ -242,5 +251,5 @@ trait MockQueryDriverTrait
      * @param   integer  $pos
      * @return  string
      */
-    abstract public function escapeLike($value, $pos);
+    abstract public function escapeLike(string $value, int $pos);
 }
