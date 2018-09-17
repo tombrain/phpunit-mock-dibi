@@ -3,7 +3,8 @@ namespace Cz\PHPUnit\MockDibi\Drivers;
 
 use Cz\PHPUnit\SQL,
     Dibi\Drivers,
-    Dibi\NotImplementedException;
+    Dibi\NotImplementedException,
+    Dibi\Reflector;
 
 /**
  * OdbcDriver
@@ -75,24 +76,7 @@ class OdbcDriver extends Drivers\OdbcDriver implements
     /**
      * @throws  NotImplementedException
      */
-    public function getTables()
-    {
-        $this->throwReflectorNotImplementedException();
-    }
-
-    /**
-     * @param   string  $table
-     * @throws  NotImplementedException
-     */
-    public function getColumns($table)
-    {
-        $this->throwReflectorNotImplementedException();
-    }
-
-    /**
-     * @throws  NotImplementedException
-     */
-    private function throwReflectorNotImplementedException()
+    public function getReflector(): Reflector
     {
         throw new NotImplementedException('No schema info for mock DB connection');
     }

@@ -3,7 +3,8 @@ namespace Cz\PHPUnit\MockDibi\Drivers;
 
 use Cz\PHPUnit\SQL,
     Dibi\Drivers,
-    Dibi\NotImplementedException;
+    Dibi\NotImplementedException,
+    Dibi\Reflector;
 
 /**
  * PostgreDriver
@@ -135,17 +136,8 @@ class PostgreDriver extends Drivers\PostgreDriver implements
     /**
      * @throws  NotImplementedException
      */
-    public function getTables(): array
+    public function getReflector(): Reflector
     {
-        throw new NotImplementedException('Parent class method uses extention functions');
-    }
-
-    /**
-     * @param   string  $table
-     * @throws  NotImplementedException
-     */
-    public function getColumns($table): array
-    {
-        throw new NotImplementedException('Parent class method uses extention functions');
+        throw new NotImplementedException('No schema info for mock DB connection');
     }
 }

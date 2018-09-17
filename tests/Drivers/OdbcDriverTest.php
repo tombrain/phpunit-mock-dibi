@@ -82,8 +82,7 @@ class OdbcDriverTest extends Testcase
     public function provideUnimplementedMethods()
     {
         return [
-            ['getTables', []],
-            ['getColumns', ['t1']],
+            ['getReflector', []],
         ];
     }
 

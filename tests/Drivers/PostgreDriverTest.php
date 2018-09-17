@@ -196,8 +196,7 @@ class PostgreDriverTest extends Testcase
     {
         return [
             ['ping', []],
-            ['getTables', []],
-            ['getColumns', ['t1']],
+            ['getReflector', []],
         ];
     }
 
