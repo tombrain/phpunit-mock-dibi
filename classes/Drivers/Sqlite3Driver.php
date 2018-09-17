@@ -9,5 +9,5 @@ namespace Cz\PHPUnit\MockDibi\Drivers;
  */
 class Sqlite3Driver extends SqliteDriver
 {
-    
+    // Alias of the parent class, for backward compatibility.
 }
