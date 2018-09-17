@@ -1,8 +1,7 @@
 <?php
 namespace Cz\PHPUnit\MockDibi\Drivers;
 
-use Dibi\NotSupportedException,
-    PDOStatement;
+use PDOStatement;
 
 /**
  * PdoDriverTest
