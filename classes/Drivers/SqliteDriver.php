@@ -6,15 +6,15 @@ use Cz\PHPUnit\SQL,
     Dibi\NotImplementedException,
     ReflectionProperty,
     SQLite3,
-    SQLite3Result as NativeSqlite3DResult;
+    SQLite3Result as NativeSQLiteResult;
 
 /**
- * Sqlite3Driver
+ * SqliteDriver
  * 
  * @author   czukowski
  * @license  MIT License
  */
-class Sqlite3Driver extends Drivers\Sqlite3Driver implements
+class SqliteDriver extends Drivers\SqliteDriver implements
     DatabaseDriverInterface,
     SQL\DatabaseDriverInterface
 {
@@ -58,20 +58,20 @@ class Sqlite3Driver extends Drivers\Sqlite3Driver implements
 
     /**
      * @param   mixed  $resultSet
-     * @return  Sqlite3Result
+     * @return  SqliteResult
      */
     public function createResultSet($resultSet)
     {
-        return new Sqlite3Result($resultSet);
+        return new SqliteResult($resultSet);
     }
 
     /**
-     * @param   NativeSqlite3DResult  $result
-     * @return  Sqlite3Result
+     * @param   NativeSQLiteResult  $result
+     * @return  SqliteResult
      */
-    public function createResultDriver(NativeSqlite3DResult $result): Drivers\Sqlite3Result
+    public function createResultDriver(NativeSQLiteResult $result): Drivers\SqliteResult
     {
-        return new Sqlite3Result($result);
+        return new SqliteResult($result);
     }
 
     /**
@@ -138,10 +138,10 @@ class Sqlite3Driver extends Drivers\Sqlite3Driver implements
      */
     public function setDateTimeFormats(string $fmtDate, string $fmtDateTime): void
     {
-        $propertyDate = new ReflectionProperty(Drivers\Sqlite3Driver::class, 'fmtDate');
+        $propertyDate = new ReflectionProperty(Drivers\SqliteDriver::class, 'fmtDate');
         $propertyDate->setAccessible(TRUE);
         $propertyDate->setValue($this, $fmtDate);
-        $propertyDateTime = new ReflectionProperty(Drivers\Sqlite3Driver::class, 'fmtDateTime');
+        $propertyDateTime = new ReflectionProperty(Drivers\SqliteDriver::class, 'fmtDateTime');
         $propertyDateTime->setAccessible(TRUE);
         $propertyDateTime->setValue($this, $fmtDateTime);
     }
