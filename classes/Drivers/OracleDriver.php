@@ -19,6 +19,16 @@ class OracleDriver extends Drivers\OracleDriver implements
     use MockQueryDriverTrait;
 
     /**
+     * @param  array  $config
+     */
+    public function __construct(array $config = [])
+    {
+        $nativeDate = $config['nativeDate'] ?? TRUE;
+        $this->setUseNativeDate($nativeDate);
+        // No calling parent constructor!
+    }
+
+    /**
      * @param   mixed  $sequence
      * @return  integer|NULL
      */
