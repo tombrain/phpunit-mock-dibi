@@ -34,6 +34,17 @@ class DriversFactory
     }
 
     /**
+     * @param   boolean  $nativeDate
+     * @return  OracleDriver
+     */
+    public function createOracleDriver(bool $nativeDate = TRUE)
+    {
+        $driver = new OracleDriver;
+        $driver->setUseNativeDate($nativeDate);
+        return $driver;
+    }
+
+    /**
      * @param   string  $driverName
      * @return  PdoDriver
      */

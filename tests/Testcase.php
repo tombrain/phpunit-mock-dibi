@@ -24,7 +24,7 @@ abstract class Testcase extends FrameworkTestCase
         $class = new ReflectionClass($factory);
         $testcases = [];
         foreach ($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-            if ($method->getNumberOfParameters() || substr($method->getName(), 0, 6) !== 'create') {
+            if ($method->getNumberOfRequiredParameters() || substr($method->getName(), 0, 6) !== 'create') {
                 continue;
             }
             $key = substr($method->getName(), 6);
