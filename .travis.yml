@@ -10,7 +10,7 @@ env:
   - PHPUNIT_VERSION="~5.0"
 
 before_install:
-  - if [ "PHPUNIT_VERSION" != "" ]; then composer require --dev --no-update phpunit/phpunit:$PHPUNIT_VERSION; fi
+  - if [ "$PHPUNIT_VERSION" != "" ]; then composer require --dev --no-update phpunit/phpunit:$PHPUNIT_VERSION; fi
 
 install:
   - travis_retry composer install --no-progress --prefer-dist
