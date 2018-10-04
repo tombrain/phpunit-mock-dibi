@@ -15,8 +15,8 @@
         "issues": "https://github.com/czukowski/phpunit-mock-dibi/issues"
     },
     "require": {
-        "czukowski/phpunit-mock-db": "*",
-        "dibi/dibi": "dev-master"
+        "czukowski/phpunit-mock-db": ">=5.0",
+        "dibi/dibi": "4.0.x-dev"
     },
     "autoload": {
         "psr-4": {
