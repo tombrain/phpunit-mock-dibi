@@ -15,7 +15,6 @@
         "issues": "https://github.com/czukowski/phpunit-mock-dibi/issues"
     },
     "require": {
-        "php": ">=7.1",
         "czukowski/phpunit-mock-db": "*",
         "dibi/dibi": "dev-master"
     },
