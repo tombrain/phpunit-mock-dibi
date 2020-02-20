@@ -31,7 +31,7 @@ class InvocationMocker extends OriginalInvocationMocker
      * @param   RecordedInvocation  $matcher
      * @return  InvocationMockerBuilder
      */
-    public function expects(RecordedInvocation $matcher)
+    public function expects(RecordedInvocation $matcher): InvocationMockerBuilder
     {
         return new InvocationMockerBuilder($this, $matcher, $this->connection);
     }
