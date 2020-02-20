@@ -9,10 +9,7 @@ env:
   - PHPUNIT_VERSION="~8.5.0"
   - PHPUNIT_VERSION="~8.4.0"
   - PHPUNIT_VERSION="~8.2.0"
-  - PHPUNIT_VERSION="~8.0.0"
   - PHPUNIT_VERSION="~7.0"
-  - PHPUNIT_VERSION="~6.0"
-  - PHPUNIT_VERSION="~5.0"
 
 matrix:
   include:
