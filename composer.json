@@ -1,5 +1,5 @@
 {
-    "name": "czukowski/phpunit-mock-dibi",
+    "name": "tombrain/phpunit-mock-dibi",
     "type": "library",
     "description": "Dibi mocking helpers for PHPUnit",
     "keywords": ["phpunit", "dibi", "database", "mock"],
