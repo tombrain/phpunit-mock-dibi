@@ -11,13 +11,18 @@
             "homepage": "http://xn----0tbl7bn.com"
         }
     ],
-    "support": {
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/tombrain/phpunit-mock-db.git"
+        }  	    
+    ],    "support": {
         "issues": "https://github.com/czukowski/phpunit-mock-dibi/issues"
     },
     "require": {
-        "czukowski/phpunit-mock-db": "^7.0 || >= 8.2",
+        "tombrain/phpunit-mock-db": "dev-master",
         "czukowski/phpunit-sql": "^7.0.2 || ^8.0 || ^9.0",
-        "dibi/dibi": "^4.2.7"
+        "dibi/dibi": "^5.0"
     },
     "autoload": {
         "psr-4": {
