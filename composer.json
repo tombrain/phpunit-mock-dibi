@@ -15,10 +15,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/tombrain/phpunit-mock-db.git"
-        },  	    
-        {
-            "type": "vcs",
-            "url": "https://github.com/tombrain/phpunit-sql"
         }
     ],
     "support": {
@@ -26,7 +22,6 @@
     },
     "require": {
         "tombrain/phpunit-mock-db": "dev-master",
-        "tombrain/phpunit-sql": "dev-master",
         "dibi/dibi": "^5.0"
     },
     "autoload": {
