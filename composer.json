@@ -14,6 +14,10 @@
     "repositories": [
         {
             "type": "vcs",
+            "url": "https://github.com/tombrain/phpunit-sql.git"
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/tombrain/phpunit-mock-db.git"
         }
     ],
@@ -21,6 +25,7 @@
         "issues": "https://github.com/czukowski/phpunit-mock-dibi/issues"
     },
     "require": {
+        "tombrain/phpunit-sql": "dev-master",
         "tombrain/phpunit-mock-db": "dev-master",
         "dibi/dibi": "^4.2.x-dev"
     },
