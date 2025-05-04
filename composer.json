@@ -25,6 +25,7 @@
         "issues": "https://github.com/czukowski/phpunit-mock-dibi/issues"
     },
     "require": {
+        "php": ">=8.0",
         "tombrain/phpunit-sql": "dev-phpunit-9",
         "tombrain/phpunit-mock-db": "dev-phpunit-9",
         "dibi/dibi": "^4.2.x-dev"
